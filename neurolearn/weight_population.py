@@ -26,24 +26,10 @@ class WeightPopulation:
     def evolve(self):
         print('time to evolve')
         for g in range(self.max_generations):
-            t = time.time()
             self.calculate_fitness()
-            self.get_pop()
-            print('Fit: ', time.time() - t)
-
-            t = time.time()
             self.select()
-            print('Select: ', time.time() - t)
-
-            t = time.time()
             self.crossover()
-            print('Cross: ', time.time() - t)
-
-            t = time.time()
             self.substitution()
-            print('Sub: ', time.time() - t)
-            best = max(self.weights, key=lambda i: i.validation_accuracy)
-            print(g, ' - ', best.validation_accuracy)
 
         self.get_pop()
 

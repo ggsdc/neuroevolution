@@ -1,5 +1,6 @@
 import random
 import numpy as np
+from tensorflow.keras.metrics import CategoricalAccuracy
 
 
 class IndividualWeights:
@@ -33,7 +34,11 @@ class IndividualWeights:
                 start = end
                 model.layers[i].set_weights([weights, bias])
         # self.train_accuracy = model.evaluate(x_train, y_train, verbose=0, batch_size=1024*8)[1]
-        self.validation_accuracy = model.evaluate(x_validation, y_validation, verbose=0, batch_size=1024)[1]
+        # self.validation_accuracy = model(x_validation, y_validation, verbose=0, batch_size=1024)
+        metric = CategoricalAccuracy()
+        metric.update_state(y_validation, model(x_validation, training=False))
+        self.validation_accuracy = float(metric.result().numpy())
+
         self.trained = True
 
     def mutate(self, mutation_prob):
