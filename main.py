@@ -1,6 +1,5 @@
 import pandas as pd
-from src.individual import Individual
-
+from neurolearn.structure_population import StructuresPopulation
 
 INPUT_FEATURES = "./data/WineQualityPreparedCleanAttributes_2.csv"
 OUTPUT_CLASS = "./data/WineQualityOneHotEncodedClasses.csv"
@@ -31,10 +30,8 @@ print('Train shape: ', x_train.shape, y_train.shape)
 print('Validation shape: ', x_validation.shape, y_validation.shape)
 print('Test shape: ', x_test.shape, y_test.shape)
 
-nn = Individual(0.9, 0.1)
-nn.random_individual()
-print(nn.structure)
-
-nn.train(x_train, y_train, x_validation, y_validation)
-
-print(nn.__dict__)
+nn = StructuresPopulation(1, 100, 0.1, 5, method='genetic-algorithm',
+                                  data=(x_train, y_train, x_validation, y_validation), layer_weight=0.9,
+                                  architecture_weight=0.1)
+nn.get_population_structure()
+nn.evolve()
