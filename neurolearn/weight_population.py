@@ -5,8 +5,16 @@ from .weight_individual import IndividualWeights
 
 
 class WeightPopulation:
-
-    def __init__(self, population_size, max_generations, model, params, data, crossover_prob=0.25, mutation_prob=0.1):
+    def __init__(
+        self,
+        population_size,
+        max_generations,
+        model,
+        params,
+        data,
+        crossover_prob=0.25,
+        mutation_prob=0.1,
+    ):
         self.population_size = population_size
         self.max_generations = max_generations
         self.model = model
@@ -21,10 +29,10 @@ class WeightPopulation:
         for i in range(self.population_size):
             self.weights.append(IndividualWeights(self.params))
             self.weights[i].create_random_individual()
-        print('weights initialized')
+        print("weights initialized")
 
     def evolve(self):
-        print('time to evolve')
+        print("time to evolve")
         for g in range(self.max_generations):
             self.calculate_fitness()
             self.select()

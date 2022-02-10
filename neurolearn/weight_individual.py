@@ -4,7 +4,6 @@ from tensorflow.keras.metrics import CategoricalAccuracy
 
 
 class IndividualWeights:
-
     def __init__(self, size):
         self.size = size
         self.genes = []
@@ -22,7 +21,7 @@ class IndividualWeights:
         x_train, y_train, x_validation, y_validation = data
         start = 0
         for i in range(len(model.layers)):
-            if 'dropout' in model.layers[i].name:
+            if "dropout" in model.layers[i].name:
                 continue
             else:
                 shape = (model.layers[i].input_shape[1], model.layers[i].units)

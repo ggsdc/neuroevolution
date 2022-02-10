@@ -1,15 +1,26 @@
-AXIOM = 'S'
-NON_TERMINAL = ['S', 'A', 'H', 'Z', 'N']
-TERMINAL = ['n', '/', 'I', 'O']
+AXIOM = "S"
+NON_TERMINAL = ["S", "A", "H", "Z", "N"]
+TERMINAL = ["n", "/", "I", "O"]
 
-PRODUCTION_RULES = {'S': ['AH/Z'], 'A': ['I'], 'Z': ['O'], 'H': ['HH', '/N'], 'N': ['nN', 'n']}
-FINAL_PRODUCTION_RULES = {'S': ['AH/Z'], 'A': ['I'], 'Z': ['O'], 'H': ['/N'], 'N': ['nN', 'n']}
+PRODUCTION_RULES = {
+    "S": ["AH/Z"],
+    "A": ["I"],
+    "Z": ["O"],
+    "H": ["HH", "/N"],
+    "N": ["nN", "n"],
+}
+FINAL_PRODUCTION_RULES = {
+    "S": ["AH/Z"],
+    "A": ["I"],
+    "Z": ["O"],
+    "H": ["/N"],
+    "N": ["nN", "n"],
+}
 
 import random
 
 
 class Node:
-
     def __init__(self, symbol, parent, depth, idx):
         self.symbol = symbol
         self.parent = parent
@@ -28,7 +39,7 @@ class Node:
         self.children = children
 
     def children_word(self):
-        word = ''
+        word = ""
         for child in self.children:
             if len(child.children) > 0:
                 word += child.children_word()
@@ -45,7 +56,6 @@ class Node:
 
 
 class DerivationTree:
-
     def __init__(self, max_depth):
         self.word = AXIOM
         self.depth_dict = {}
@@ -60,14 +70,22 @@ class DerivationTree:
             self.depth += 1
             self.depth_dict[self.depth] = []
             stop = True
-            for node in self.depth_dict[self.depth-1]:
+            for node in self.depth_dict[self.depth - 1]:
                 if node.symbol in NON_TERMINAL:
                     if self.depth <= self.max_depth:
-                        substitution = [Node(val, node, self.depth, (index + 1,)) for index, val in
-                                                       enumerate(random.choice(PRODUCTION_RULES[node.symbol]))]
+                        substitution = [
+                            Node(val, node, self.depth, (index + 1,))
+                            for index, val in enumerate(
+                                random.choice(PRODUCTION_RULES[node.symbol])
+                            )
+                        ]
                     else:
-                        substitution = [Node(val, node, self.depth, (index + 1,)) for index, val in
-                                        enumerate(random.choice(FINAL_PRODUCTION_RULES[node.symbol]))]
+                        substitution = [
+                            Node(val, node, self.depth, (index + 1,))
+                            for index, val in enumerate(
+                                random.choice(FINAL_PRODUCTION_RULES[node.symbol])
+                            )
+                        ]
 
                     self.depth_dict[self.depth] += substitution
 
@@ -81,8 +99,3 @@ class DerivationTree:
                 break
 
         self.word = self.depth_dict[1][0].children_word()
-
-
-
-
-
